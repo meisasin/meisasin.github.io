@@ -60,7 +60,9 @@ We built Dapper to provide Google’s developers with more information about the
 
 The design space of distributed systems tracing tools has been explored in a number of excellent previous articles, among which Pinpoint [9], Magpie [3] and X-Trace [12] are most closely related to Dapper. These systems tend to be described in the research literature at a very early point in their development, before there is an opportunity to clearly evaluate  important design
 
-<center>![../source/Google.Dapper.1.png](../source/Google.Dapper.1.png)</center>
+
+![../Google.Dapper.1.png](../Google.Dapper.1.png#pic_center)
+
 
 #### <center>  Figure 1: The path taken through a simple serving system on behalf of user request X. The letter-labeled nodes represent processes in a distributed system.</center>
 
@@ -85,8 +87,7 @@ In a Dapper trace tree, the tree nodes are basic units of work which we refer to
 &emsp;We illustrate how spans form the structure of a larger trace in Figure 2. Dapper records a human-readable span name for each span, as well as a span id and parent id in order to reconstruct the causal relationships between the  individual spans in a single 
 
 
-
-<center>![../source/Google.Dapper.2.png](../source/Google.Dapper.2.png)</center>
+![../Google.Dapper.2.png](../Google.Dapper.2.png)
 
 #### <center>  Figure 2: The causal and temporal relationships be- tween five spans in a Dapper trace tree.</center>
 
@@ -97,7 +98,7 @@ distributed  trace. Spans created without a parent id are known as root spans. A
 
 &emsp;It is important to note that a span can contain informa- tion from multiple hosts; in fact, every RPC span con- tains annotations from both the client and server pro- cesses, making two-host spans the most common ones. Since the timestamps on client and server come from different host machines, we have to be mindful of clock skew. In our analysis tools, we take advantage of the 
 
-<center>![../source/Google.Dapper.3.png](../source/Google.Dapper.3.png)</center>
+![../Google.Dapper.3.png](../Google.Dapper.3.png)
 
 #### <center> Figure 3: A detailed view of a single span from Fig- ure 2.</center>
 
@@ -146,7 +147,7 @@ The Dapper trace logging and collection pipeline is a three-stage process (see F
 
 
 
-<center>![../source/Google.Dapper.4.png](../source/Google.Dapper.4.png)</center>
+![../Google.Dapper.4.png](../Google.Dapper.4.png)
 
 #### <center> Figure 5: An overview of the Dapper collection pipeline.</center>
 
@@ -299,7 +300,7 @@ The Google AdWords system is built around a large database of keyword targeting 
 
 
 
-<center>![../source/Google.Dapper.5.png](../source/Google.Dapper.5.png)</center>
+![../Google.Dapper.5.png](../Google.Dapper.5.png)
 
 #### <center>Figure 6: A typical user workflow in the general-purpose Dapper user interface.</center>
 
@@ -325,7 +326,7 @@ first system prototypes through launch and, eventually, maintenance of their sys
 
 Google maintains a service which continually collects and centralizes exception reports from running pro-cesses. If these 
 
-<center>![../source/Google.Dapper.6.png](../source/Google.Dapper.6.png)</center>
+![../Google.Dapper.6.png](../Google.Dapper.6.png)
 
 #### <center>Figure 7: The fraction of universal search traces which encountered unusually high network lag some- where along their critical path, shown as a function of end-to-end request latency.</center>
 
