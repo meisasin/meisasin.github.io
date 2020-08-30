@@ -5,7 +5,7 @@ date:   2020-08-30 00:01:00 +0800
 categories: tracing
 ---
 ### 转者注
-Google Publications：Dapper, a Large-Scale Distributed Systems Tracing Infrastructure
+Google 发表：Dapper, a Large-Scale Distributed Systems Tracing Infrastructure
 <br>
 
 原作地址：[https://research.google/pubs/pub36356/](https://research.google/pubs/pub36356/)
@@ -17,7 +17,8 @@ Google Publications：Dapper, a Large-Scale Distributed Systems Tracing Infrastr
 转者：马晓峰
 <br>
 
-### 正文
+#### 正文
+<p align="right"><a href="./Google-Dapper-中文版">简体中文</a>&emsp;</p>
 <br>
 
 <center>Google Technical Report dapper-2010-1, April 2010</center>
