@@ -1,0 +1,122 @@
+---
+layout: post
+title:  "Docker 容器与宿主机时间同步"
+date:   2020-09-05 08:00:00 +0800
+categories: docker
+---
+
+#### 术语
+
+> CST: 可视为美国、澳大利亚、古巴或中国的标准时间
+>
+> UTC: 世界标准时间
+>
+> 中国标准时间：China Standard Time UT+8:00
+
+<br>
+
+---
+
+查看容器时间与宿主机时间是否一致
+
+```
+# 查看宿主机时间
+[root@izkevcxp3sulkzz ~]# date
+2020年 09月 05日 星期六 11:43:38 CST
+# 查看 mysql 容器时间 >>> 这里 mysql 替换成对应的 container-id
+[root@izkevcxp3sulkzz ~]# docker exec -it mysql date
+Sat Sep  5 03:43:52 UTC 2020
+```
+
+可以看出，默认 docker 容器的时区为 UTC，而宿主机的时区为 CST
+
+当 CST 为中国标准时间时，与 UTC 实际相差 8 个小时(所以没有设置过的容器, 一般跟宿主机时间相差8h)， 所以必须统一两者的时区
+
+修改方法可以参考以下 3 种：
+
+<br>
+
+---
+
+#### 方法1：共享主机的 localtime
+
+创建容器的时候指定启动参数，挂载localtime文件到容器内 ，保证两者所采用的时区是一致的
+
+- 通过 `-v /etc/localtime:/etc/localtime:ro` 挂载 localtime 目录到容器内
+
+```
+# 创建并运行容器，通过 -v /etc/localtime:/etc/localtime:ro 挂载目录
+docker run -v /etc/localtime:/etc/localtime:ro -d -p 80:80 --name nginx nginx
+```
+
+- 或通过 `-e TZ="Asia/Shanghai"` 设置时区
+
+```
+# 创建并运行容器，通过 -e TZ="Asia/Shanghai" 设置时区
+docker run -e TZ="Asia/Shanghai" -d -p 80:80 --name nginx nginx
+```
+
+
+<br>
+
+---
+
+#### 方法2：复制主机的 localtime (容器在运行时使用)
+
+宿主机上运行命令：`docker cp /etc/localtime [container-id]:/etc/`
+
+>  其中 container-id 为启动的容器 id，也可以是容器的名称，我的 mysql 容器名称是 mysql，所以具体命令如下
+
+```
+docker cp /etc/localtime mysql:/etc/
+```
+
+查询 docker 容器时间的命令：`docker exec -it [container-id] date`
+
+```
+[root@izkevcxp3sulkzz ~]# docker exec -it mysql date
+Sat Sep  5 10:51:36 CST 2020
+```
+
+可以看见已与宿主机时区及时间一致
+
+**注意：**
+
+虽然容器时间已与宿主机同步，但在容器中运行的程序的时间不一定能更新过来，比如在容器运行的MySQL服务，在更新时间后，通过`SELECT NOW();` 查看MySQL的时间，可以发现，时间并没有更改过来。
+
+这时候必须要重启mysql服务或者重启Docker容器，mysql才能读取到更改过后的时间。
+
+
+<br>
+
+---
+
+#### 方法3：创建自定义的 dockerfile(未验证)
+
+创建dockerfile文件，自定义该镜像的时间格式及时区
+
+```
+FROM redis
+ 
+FROM tomcat
+ 
+ENV CATALINA_HOME /usr/local/tomcat
+
+#设置时区
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+   && echo 'Asia/Shanghai' >/etc/timezone \
+```
+
+保存后，利用docker build命令生成镜像使用即可。
+
+
+<br>
+
+---
+
+参考
+
+- [https://blog.csdn.net/erhaiou2008/article/details/95106611](https://blog.csdn.net/erhaiou2008/article/details/95106611)
+
+- [https://www.jiloc.com/46602.html](https://www.jiloc.com/46602.html)
+

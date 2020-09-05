@@ -20,8 +20,9 @@ Updating Homebrew...
 
 如果碰到长时间卡在这里，参考以下 2 种解决方法
 
----
 <br>
+
+---
 
 #### 方法1：按住`control + c` 取消本次更新操作	`>>>`	临时、一次性方式
 
@@ -36,8 +37,9 @@ Updating Homebrew...
 ...
 ```
 
----
 <br>
+
+---
 
 #### 方法2：使用 Alibaba 的 Homebrew 镜像源进行加速	`>>>`	永久的
 
@@ -129,9 +131,9 @@ Updating Homebrew...
 
      `source ~/.bash_profile`
 
+<br>
 
 ---
-<br>
 
 参考
 
