@@ -1,0 +1,44 @@
+---
+layout: post
+title:  "Mac 上查看及修改文件编码格式"
+date:   2020-10-11 13:00:00 +0800
+categories: mac
+---
+<br>
+
+- #### 查看文件编码格式
+
+vim 打开相应文件后，执行 `set fileencoding` 即可显示文件编码格式
+
+例：执行`➜ ~ vim filename` 命令后，执行 `set fileencoding`
+<br>
+![../11.1.png](../11.1.png){:height="50%" width="50%"}
+<br>
+显示
+<br>
+![../11.2.png](../11.2.png){:height="50%" width="50%"}
+<br>
+`utf-8` 即为文件的编码格式
+
+- #### 将文件编码转换为utf-8
+
+vim 打开相应文件后，执行 `set fileencoding=utf-8` 即可将文件编码转换为`utf-8`
+<br>
+例：先查看文件编码格式
+<br>
+![../11.3.png](../11.3.png){:height="50%" width="50%"}
+<br>
+显示当前文件编码格式为 `cp936`
+<br>
+执行 `set fileencoding=utf-8` 命令
+<br>
+![../11.4.png](../11.4.png){:height="50%" width="50%"}
+<br>
+然后再次查看文件编码格式发现文件编码格式已转换为 `utf-8`
+<br>
+
+---
+
+参考
+
+- [https://www.cnblogs.com/xqnq2007/p/6725044.html](https://www.cnblogs.com/xqnq2007/p/6725044.html)
