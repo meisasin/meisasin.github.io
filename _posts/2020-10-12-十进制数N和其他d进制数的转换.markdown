@@ -10,10 +10,30 @@ categories: base
 `N = (N div d) × d + N mod d`
 <br>
 (其中：div 为整除运算，mod 为求余运算） 然后对余数反转得出的即为结果
-
 <br>
+代码:
+```Golang
+/**
+@param n : 要转换的数值
+@param d : 要转换成的进制数
+ */
+func Conversion(n int, d int) {
+	var stack []int
+	for n != 0 {
+		stack = append(stack, n % d)
+		n /= d
+	}
+	// 输出 START
+	for i := len(stack) - 1 ; i >= 0 ; i -- {
+		fmt.Printf("%d ", stack[i])
+	}
+	fmt.Println()
+	// 输出 END
+}
+```
 
-例如：
+
+- 例如下面这个例子
 <br>
 
 | 十进制    | 十六进制  | 八进制  | 二进制      |
