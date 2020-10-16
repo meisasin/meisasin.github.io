@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "Mysql 根据一个表中的数据更新另一张表中的数据"
+date:   2020-10-16 13:00:00 +0800
+categories: mysql
+---
+<br>
+
+- ### 方法1
+```
+update table_1 t1,table_2 t2 set t1.column = t2.column where t1.id = t2.pid;
+```
+
+---
+
+参考
+- [https://www.cnblogs.com/wu628/p/4948833.html](https://www.cnblogs.com/wu628/p/4948833.html)
