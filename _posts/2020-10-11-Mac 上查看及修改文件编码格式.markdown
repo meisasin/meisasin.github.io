@@ -6,7 +6,7 @@ categories: mac
 ---
 <br>
 
-- #### 查看文件编码格式
+- ### 查看文件编码格式
 
 vim 打开相应文件后，执行 `set fileencoding` 即可显示文件编码格式
 
