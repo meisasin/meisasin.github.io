@@ -1,0 +1,69 @@
+---
+
+layout: post
+
+title:  "Cron 表达式"
+
+date:   2020-11-08 14:00:00 +0800
+
+categories: mysql
+
+---
+
+<br>
+
+CronTrigger
+CronTriggers往往比SimpleTrigger更有用，如果您需要基于日历的概念，而非SimpleTrigger完全指定的时间间隔，复发的发射工作的时间表。 CronTrigger，你可以指定触发的时间表如“每星期五中午”，或“每个工作日9:30时”，甚至“每5分钟一班9:00和10:00逢星期一上午，星期三星期五“。 即便如此，SimpleTrigger一样，CronTrigger拥有的startTime指定的时间表时生效，指定的时间表时，应停止（可选）结束时间。
+
+Cron表达式
+cron的表达式被用来配置CronTrigger实例。 cron的表达式是字符串，实际上是由七子表达式，描述个别细节的时间表。这些子表达式是分开的空白，代表：
+
+1. Seconds
+
+2. Minutes
+
+3. Hours
+
+4. Day-of-Month
+
+5. Month
+
+6. Day-of-Week
+
+7. Year (可选字段)
+
+例 "0 0 12 ? * WED" 在每星期三下午12:00 执行,
+
+个别子表达式可以包含范围, 例如，在前面的例子里("WED")可以替换成 "MON-FRI", "MON, WED, FRI"甚至"MON-WED,SAT". “*” 代表整个时间段.
+每一个字段都有一套可以指定有效值，如
+
+Seconds (秒) ：可以用数字0－59 表示，
+
+Minutes(分) ：可以用数字0－59 表示，
+
+Hours(时) ：可以用数字0-23表示,
+
+Day-of-Month(天) ：可以用数字1-31 中的任一一个值，但要注意一些特别的月份
+
+Month(月) ：可以用0-11 或用字符串 “JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV and DEC” 表示
+
+Day-of-Week(每周)：可以用数字1-7表示（1 ＝ 星期日）或用字符口串“SUN, MON, TUE, WED, THU, FRI and SAT”表示
+
+“/”：为特别单位，表示为“每”如“0/15”表示每隔15分钟执行一次,“0”表示为从“0”分开始, “3/20”表示表示每隔20分钟执行一次，“3”表示从第3分钟开始执行
+
+“?”：表示每月的某一天，或第周的某一天
+
+“L”：用于每月，或每周，表示为每月的最后一天，或每个月的最后星期几如“6L”表示“每月的最后一个星期五”
+
+“W”：表示为最近工作日，如“15W”放在每月（day-of-month）字段上表示为“到本月15日最近的工作日”
+
+““#”：是用来指定“的”每月第n个工作日,例 在每周（day-of-week）这个字段中内容为"6#3" or "FRI#3" 则表示“每月第三个星期五”
+
+<br>
+
+---
+
+参考
+
+- [https://www.pppet.net/jiaocheng](https://www.pppet.net/jiaocheng)
+
