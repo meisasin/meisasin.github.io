@@ -1,0 +1,62 @@
+---
+
+layout: post
+
+title:  "Mysql 执行 sql 脚本时添加事务（基于存储过程）"
+
+date:   2020-12-12 14:00:00 +0800
+
+categories: mysql
+
+---
+
+<br>
+
+#### 通过 mysql 命令行执行 sql 脚本时，添加事务支持
+
+```sql
+DROP PROCEDURE IF EXISTS t_test;  # 如果存在 t_test 存储过程将其删除
+DELIMITER //                      # 修改命令结束符为 // ，其实就是告诉mysql解释器，等遇见 // 后代表命令结束  
+CREATE PROCEDURE t_test()         # 创建 t_test 存储过程开始  
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;  # 存储过程在执行过程中如果出现异常进行回滚操作
+START TRANSACTION;                # 事务开启
+
+# 要执行的 sql 语句
+
+COMMIT;                           # 提交事务  
+END//                             # 创建 t_test 存储过程结束  
+DELIMITER ;                       # 改回默认的命令结束符 ; 
+CALL t_test();                    # 执行存储过程  
+```
+
+#### 通过 mysql 命令行执行 sql 脚本
+例如把上边的存储过程保存为 init.sql 放在 /home/root 目录下，可以运行下边命令来执行 sql 脚本
+```
+mysql> source /home/root/init.sql
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+```
+
+**source** 指令的缩写是 '\.'，所有运行下边的命令同样可以达到执行 sql 文件的效果
+```
+mysql> \. /home/PlanOps/templates/init_tcyw_permission.sql
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+```
+
+### 注意：通过这种方式为 sql 脚本添加事务支持，在执行过程中如果出错是不会打印错误信息的，需要手动验证数据是否已正确执行
+
+---
+
+参考
+
+- [https://blog.csdn.net/SSMDZ/article/details/75385790](https://blog.csdn.net/SSMDZ/article/details/75385790)
+
+- [https://blog.csdn.net/yuxin6866/article/details/52722913](https://blog.csdn.net/yuxin6866/article/details/52722913)
