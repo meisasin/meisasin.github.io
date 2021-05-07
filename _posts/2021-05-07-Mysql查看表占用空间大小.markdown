@@ -1,0 +1,52 @@
+---
+
+layout: post
+
+title:  "Mysql查看表占用空间大小"
+
+date:   2021-05-07 14:00:00 +0800
+
+categories: mysql
+
+---
+
+<br>
+
+#### Mysql中 information_schema 库里面 tables 表保存了Mysql服务器所有数据库的信息，如数据库名，数据库的表，表栏的数据类型与访问权限等。再简单点，这台Mysql服务器上，到底有哪些数据库、各个数据库有哪些表，每张表的字段类型是什么，各个数据库要什么权限才能访问，等等信息都保存在information_schema库的 tables 表里面，所以请勿删改此表。
+
+##### 查寻数据库占用磁盘空间大小、索引的大小
+```
+SELECT
+	TABLE_SCHEMA,
+	TRUNCATE ( sum( data_length ) / 1024 / 1024, 2 ) AS data_length,
+	concat( TRUNCATE ( sum( data_length ) / 1024 / 1024, 2 ), ' MB' ) AS data_size,
+	concat( TRUNCATE ( sum( index_length ) / 1024 / 1024, 2 ), ' MB' ) AS index_size 
+FROM
+	information_schema.TABLES 
+GROUP BY
+	TABLE_SCHEMA 
+ORDER BY
+	data_length DESC;
+```
+
+##### 单个数据库中每个表占磁盘空间大小、索引的大小、记录数
+```
+SELECT
+	TABLE_NAME,
+	concat( TRUNCATE ( data_length / 1024 / 1024, 2 ), ' MB' ) AS data_size,
+	concat( TRUNCATE ( index_length / 1024 / 1024, 2 ), ' MB' ) AS index_size,
+	table_rows,
+	concat( TRUNCATE ( data_length / 1024 / table_rows, 2 ), ' KB' ) AS row_size 
+FROM
+	information_schema.TABLES 
+WHERE
+	TABLE_SCHEMA = 'itsm_pt' 
+ORDER BY
+	data_length DESC;
+```
+
+---
+
+参考
+
+- [https://www.cnblogs.com/shoshana-kong/p/11136919.html](https://www.cnblogs.com/shoshana-kong/p/11136919.html)
